@@ -15,16 +15,37 @@ export function App() {
     return (
         <div>
             <Header />
-            <main className="px-6">
-                <NewServiceForm addServiceOrder={addServiceOrder} />
+            <main className="max-w-5xl mx-auto px-6">
+                <section>
+                    <NewServiceForm addServiceOrder={addServiceOrder} />
+                </section>
 
-                <ul className="flex flex-col gap-2 mt-4">
-                    {servicesOrders.map((serviceOrder) => (
-                        <li>
-                            <ServiceCard {...serviceOrder} />
-                        </li>
-                    ))}
-                </ul>
+                <div className="mt-7 flex flex-wrap gap-3 justify-between max-w-5xl mx-auto">
+                    <section className="flex-1">
+                        <h2 className="font-bold text-center text-lg min-w-80">Abertas</h2>
+                        <ul className="flex flex-col gap-2 mt-2">
+                            {servicesOrders
+                                .filter((so) => so.status === "open")
+                                .map((serviceOrder) => (
+                                    <li>
+                                        <ServiceCard {...serviceOrder} />
+                                    </li>
+                                ))}
+                        </ul>
+                    </section>
+                    <section className="flex-1">
+                        <h2 className="font-bold text-center text-lg min-w-80">Finalizadas</h2>
+                        <ul className="flex flex-col gap-2 mt-2">
+                            {servicesOrders
+                                .filter((so) => so.status === "done")
+                                .map((serviceOrder) => (
+                                    <li>
+                                        <ServiceCard {...serviceOrder} status="done" />
+                                    </li>
+                                ))}
+                        </ul>
+                    </section>
+                </div>
             </main>
         </div>
     );
