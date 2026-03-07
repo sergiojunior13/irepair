@@ -30,11 +30,11 @@ export function ServiceCard({ clientName, defect, deviceModel, status, setStatus
             <h3 className="font-extrabold first-letter:uppercase text-lg">{defect}</h3>
 
             <div className="flex gap-2">
-                <p className="">
+                <p>
                     <span className="font-bold">Modelo:</span> {deviceModel}
                 </p>
                 |
-                <p className="">
+                <p>
                     <span className="font-bold">Cliente:</span> {clientName}
                 </p>
             </div>

@@ -62,7 +62,7 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
 
             <button
                 type="submit"
-                className="w-full bg-blue-700 hover:bg-blue-800 mt-4 transition-colors p-2 rounded-xl text-white font-extrabold text-lg"
+                className="w-full cursor-pointer bg-blue-700 hover:bg-blue-800 mt-4 transition-colors p-2 rounded-xl text-white font-extrabold text-lg"
             >
                 Salvar
             </button>
