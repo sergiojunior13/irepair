@@ -15,7 +15,7 @@ export function App() {
     return (
         <div>
             <Header />
-            <main>
+            <main className="px-6">
                 <NewServiceForm addServiceOrder={addServiceOrder} />
 
                 <ul>
