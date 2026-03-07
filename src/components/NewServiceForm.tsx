@@ -9,8 +9,8 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
     const [serviceOrder, setServiceOrder] = useState<ServiceOrder>({ status: "open" } as ServiceOrder);
 
     const formInputsData = [
-        { id: "clientName", label: "Nome do cliente" },
         { id: "defect", label: "Defeito do aparelho" },
+        { id: "clientName", label: "Nome do cliente" },
         { id: "deviceModel", label: "Modelo do aparelho" },
     ];
 
@@ -42,11 +42,11 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
 
     return (
         <form
-            className="flex flex-col gap-2 max-w-3xl mx-auto bg-blue-200 border-2 rounded-xl border-blue-600 p-3 shadow-blue-100 shadow-lg"
+            className="flex flex-wrap gap-2 mx-auto bg-blue-200 border-2 rounded-xl border-blue-600 p-3 shadow-blue-100 shadow-lg"
             onSubmit={handleCreateServiceBtnClick}
         >
             {formInputsData.map((inputData) => (
-                <div className="flex flex-col">
+                <div className={`flex flex-col ${inputData.id === "defect" ? "basis-full" : "flex-1"}`}>
                     <label className="font-semibold" htmlFor={inputData.id}>
                         {inputData.label}
                     </label>
@@ -55,14 +55,14 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
                         id={inputData.id}
                         placeholder={`Insira o ${inputData.label.toLowerCase()}...`}
                         onChange={(e) => setServiceOrder({ ...serviceOrder, [inputData.id]: e.target.value })}
-                        className="bg-blue-50 p-2 rounded-lg "
+                        className="bg-blue-50 p-2 rounded-lg"
                     />
                 </div>
             ))}
 
             <button
                 type="submit"
-                className="bg-blue-700 hover:bg-blue-800 mt-4 transition-colors p-2 rounded-xl text-white font-extrabold text-lg"
+                className="w-full bg-blue-700 hover:bg-blue-800 mt-4 transition-colors p-2 rounded-xl text-white font-extrabold text-lg"
             >
                 Salvar
             </button>
