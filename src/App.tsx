@@ -18,7 +18,7 @@ export function App() {
             <main className="px-6">
                 <NewServiceForm addServiceOrder={addServiceOrder} />
 
-                <ul>
+                <ul className="flex flex-col gap-2 mt-4">
                     {servicesOrders.map((serviceOrder) => (
                         <li>
                             <ServiceCard {...serviceOrder} />
