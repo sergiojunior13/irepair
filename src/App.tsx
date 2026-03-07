@@ -9,7 +9,20 @@ export function App() {
     const [servicesOrders, setServicesOrders] = useState<ServiceOrder[]>([]);
 
     function addServiceOrder(serviceOrder: ServiceOrder) {
-        setServicesOrders([...servicesOrders, serviceOrder]);
+        setServicesOrders((prevServices) => {
+            return [...prevServices, serviceOrder];
+        });
+    }
+
+    // Muda o status do serviço baseado em seu índice
+    function setStatus(status: ServiceOrder["status"], index: number) {
+        setServicesOrders((prevServices) =>
+            prevServices.map((service, i) => {
+                if (i === index) return { ...service, status: status };
+
+                return service;
+            }),
+        );
     }
 
     return (
@@ -24,25 +37,33 @@ export function App() {
                     <section className="flex-1">
                         <h2 className="font-bold text-center text-lg min-w-80">Abertas</h2>
                         <ul className="flex flex-col gap-2 mt-2">
-                            {servicesOrders
-                                .filter((so) => so.status === "open")
-                                .map((serviceOrder) => (
-                                    <li>
-                                        <ServiceCard {...serviceOrder} />
-                                    </li>
-                                ))}
+                            {servicesOrders.map(
+                                (serviceOrder, i) =>
+                                    serviceOrder.status === "open" && (
+                                        <li>
+                                            <ServiceCard
+                                                setStatus={(status) => setStatus(status, i)}
+                                                {...serviceOrder}
+                                            />
+                                        </li>
+                                    ),
+                            )}
                         </ul>
                     </section>
                     <section className="flex-1">
                         <h2 className="font-bold text-center text-lg min-w-80">Finalizadas</h2>
                         <ul className="flex flex-col gap-2 mt-2">
-                            {servicesOrders
-                                .filter((so) => so.status === "done")
-                                .map((serviceOrder) => (
-                                    <li>
-                                        <ServiceCard {...serviceOrder} status="done" />
-                                    </li>
-                                ))}
+                            {servicesOrders.map(
+                                (serviceOrder, i) =>
+                                    serviceOrder.status === "done" && (
+                                        <li>
+                                            <ServiceCard
+                                                setStatus={(status) => setStatus(status, i)}
+                                                {...serviceOrder}
+                                            />
+                                        </li>
+                                    ),
+                            )}
                         </ul>
                     </section>
                 </div>
