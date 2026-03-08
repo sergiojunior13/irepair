@@ -21,7 +21,7 @@ export function ServiceCard({ clientName, defect, deviceModel, status, createdAt
 
                 <button
                     onClick={handleChangeStatusBtnClick}
-                    className="text-white bg-red-600 cursor-pointer hover:bg-red-800 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
+                    className="text-white shadow-md shadow-red-900/80 bg-red-600 cursor-pointer hover:bg-red-800 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
                 >
                     Mudar status
                 </button>
