@@ -2,7 +2,7 @@ import type { ServiceOrder } from "../types/ServiceOrder";
 
 type ServiceCardProps = ServiceOrder & { setStatus: (status: ServiceOrder["status"]) => void };
 
-export function ServiceCard({ clientName, defect, deviceModel, status, setStatus }: ServiceCardProps) {
+export function ServiceCard({ clientName, defect, deviceModel, status, createdAt, setStatus }: ServiceCardProps) {
     function handleChangeStatusBtnClick() {
         if (status === "done") setStatus("open");
         else setStatus("done");
@@ -38,6 +38,8 @@ export function ServiceCard({ clientName, defect, deviceModel, status, setStatus
                     <span className="font-bold">Cliente:</span> {clientName}
                 </p>
             </div>
+
+            <p className="font-medium text-black/80 text-end text-sm">{createdAt.toLocaleString()}</p>
         </div>
     );
 }

@@ -37,6 +37,9 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
         // Valor padrão do 'status'
         if (!serviceOrder.status) serviceOrder.status = "open";
 
+        // Adiciona a data de criação da OS
+        serviceOrder.createdAt = new Date();
+
         addServiceOrder(serviceOrder);
     }
 
