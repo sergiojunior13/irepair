@@ -1,4 +1,4 @@
-import type { ServiceOrder } from "../types/ServiceOrder";
+import type { ServiceOrder } from "../types/serviceOrder";
 
 type ServiceCardProps = ServiceOrder & { setStatus: (status: ServiceOrder["status"]) => void };
 

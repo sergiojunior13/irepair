@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ServiceOrder } from "../types/ServiceOrder";
+import type { ServiceOrder } from "../types/serviceOrder";
 
 interface NewServiceFormProps {
     addServiceOrder: (serviceOrder: ServiceOrder) => void;

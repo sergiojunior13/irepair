@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NewServiceForm } from "../components/NewServiceForm";
-import type { ServiceOrder } from "../types/ServiceOrder";
+import type { ServiceOrder } from "../types/serviceOrder";
 import { ServiceCard } from "../components/ServiceCard";
 
 export function DashboardPage() {
