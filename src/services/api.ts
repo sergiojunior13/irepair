@@ -8,3 +8,14 @@ export const api = axios.create({
         "Content-Type": "application/json",
     },
 });
+
+export function catchError(error: any) {
+    if (axios.isAxiosError(error)) {
+        // Erro da API (ex: 404 Not Found, 400 Bad Request)
+        console.error("Erro da API:", error.response?.data);
+        console.error("Status:", error.response?.status);
+    } else {
+        // Outro tipo de erro (sem internet, etc)
+        console.error("Erro inesperado:", error);
+    }
+}
