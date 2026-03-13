@@ -56,6 +56,23 @@ export function DashboardPage() {
                     </ul>
                 </section>
                 <section className="flex-1">
+                    <h2 className="font-bold text-center text-lg">Em progresso</h2>
+                    <ul className="flex flex-col gap-2 mt-2">
+                        {servicesOrders.map(
+                            (serviceOrder, i) =>
+                                serviceOrder.status === "in_progress" && (
+                                    <li>
+                                        <ServiceCard
+                                            onDelete={() => removeSO(i)}
+                                            setStatus={(status) => setStatus(status, i)}
+                                            {...serviceOrder}
+                                        />
+                                    </li>
+                                ),
+                        )}
+                    </ul>
+                </section>
+                <section className="flex-1">
                     <h2 className="font-bold text-center text-lg">Finalizadas</h2>
                     <ul className="flex flex-col gap-2 mt-2">
                         {servicesOrders.map(
