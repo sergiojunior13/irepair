@@ -1,4 +1,5 @@
 export interface ServiceOrder {
+    id: string;
     client_id: string;
     device: string;
     issue: string;
