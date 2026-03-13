@@ -5,16 +5,19 @@ import { getServiceOrders } from "../services/serviceOrderService";
 
 export function DashboardPage() {
     const [servicesOrders, setServicesOrders] = useState<ServiceOrder[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function load() {
             const so = await getServiceOrders();
             if (!so) {
                 alert("Não foi possível obter as ordens de serviço.");
+                setIsLoading(false);
                 return;
             }
 
             setServicesOrders(so);
+            setIsLoading(false);
         }
 
         load();
@@ -34,6 +37,13 @@ export function DashboardPage() {
     function removeSO(index: number) {
         setServicesOrders((prev) => prev.filter((so, i) => i !== index));
     }
+
+    if (isLoading)
+        return (
+            <div className="h-[80vh] flex items-center justify-center font-bold text-2xl">
+                <p>Carregando dados...</p>
+            </div>
+        );
 
     return (
         <div className="mx-auto px-6 flex-1 w-full">

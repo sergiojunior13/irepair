@@ -104,7 +104,7 @@ export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCar
                 </p>
                 |
                 <p>
-                    <span className="font-bold">Cliente:</span> {client?.name}
+                    <span className="font-bold">Cliente:</span> {client?.name || "Carregando..."}
                 </p>
             </div>
 
