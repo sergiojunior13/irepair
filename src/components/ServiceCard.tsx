@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import type { NewServiceOrder, ServiceOrder } from "../types/serviceOrder";
 import type { Client } from "../types";
 import { getClient } from "../services/clientService";
-import { updateServiceOrder } from "../services/serviceOrderService";
+import { deleteServiceOrder, updateServiceOrder } from "../services/serviceOrderService";
 
-type ServiceCardProps = ServiceOrder & { setStatus: (status: ServiceOrder["status"]) => void };
+type ServiceCardProps = ServiceOrder & { onDelete: () => void; setStatus: (status: ServiceOrder["status"]) => void };
 
-export function ServiceCard({ setStatus, ...serviceOrder }: ServiceCardProps) {
+export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCardProps) {
+    const [client, setClient] = useState<Client>();
+
     function handleChangeStatusBtnClick() {
         const updatedServiceOrder: NewServiceOrder = {
             clientId: serviceOrder.client_id,
@@ -34,13 +36,17 @@ export function ServiceCard({ setStatus, ...serviceOrder }: ServiceCardProps) {
         }
     }
 
-    const [client, setClient] = useState<Client>();
+    async function handleDeleteBtnClick() {
+        const success = await deleteServiceOrder(serviceOrder.id);
+
+        if (success) onDelete();
+    }
 
     useEffect(() => {
         getClient(serviceOrder.client_id).then((c) => {
             if (c) setClient(c);
         });
-    });
+    }, []);
 
     let statusName;
     switch (serviceOrder.status) {
@@ -66,12 +72,20 @@ export function ServiceCard({ setStatus, ...serviceOrder }: ServiceCardProps) {
                     {statusName}
                 </span>
 
-                <button
-                    onClick={handleChangeStatusBtnClick}
-                    className="text-white shadow-md shadow-red-900/80 bg-red-600 cursor-pointer hover:bg-red-800 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
-                >
-                    Mudar status
-                </button>
+                <div className="flex gap-1">
+                    <button
+                        onClick={handleChangeStatusBtnClick}
+                        className="text-white shadow-sm shadow-zinc-900/80 bg-zinc-400 cursor-pointer hover:bg-zinc-500 border border-zinc-500 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
+                    >
+                        Mudar status
+                    </button>
+                    <button
+                        onClick={handleDeleteBtnClick}
+                        className="text-white shadow-sm shadow-red-900/80 bg-red-600 cursor-pointer hover:bg-red-800 border border-red-700 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
+                    >
+                        X
+                    </button>
+                </div>
             </div>
 
             <h3 className="font-extrabold first-letter:uppercase text-lg">{serviceOrder.issue}</h3>
