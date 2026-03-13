@@ -49,25 +49,33 @@ export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCar
     }, []);
 
     let statusName;
+    let bgColor;
+    let badgeColor;
     switch (serviceOrder.status) {
         case "open":
             statusName = "Aberta";
+            bgColor = "bg-green-200 border-green-600";
+            badgeColor = "bg-green-600";
             break;
         case "in_progress":
             statusName = "Em andamento";
+            bgColor = "bg-zinc-200 border-zinc-600";
+            badgeColor = "bg-zinc-600";
             break;
         case "done":
             statusName = "Fechada";
+            bgColor = "bg-red-200 border-red-600";
+            badgeColor = "bg-red-600";
             break;
     }
 
     return (
         <div
-            className={`flex flex-col gap-1 max-w-3xl mx-auto ${serviceOrder.status === "open" ? "border-green-600 bg-green-200" : "border-zinc-600 bg-zinc-200"} border-2 rounded-xl p-3 shadow-blue-100 shadow-lg`}
+            className={`flex flex-col gap-1 max-w-3xl mx-auto ${bgColor} border-2 rounded-xl p-3 shadow-blue-100 shadow-lg`}
         >
             <div className="flex justify-between">
                 <span
-                    className={`text-white w-min ${serviceOrder.status === "open" ? "bg-green-600" : "bg-zinc-600"} p-1 px-2 rounded-full font-semibold text-xs whitespace-nowrap`}
+                    className={`text-white w-min ${badgeColor} p-1 px-2 rounded-full font-semibold text-xs whitespace-nowrap`}
                 >
                     {statusName}
                 </span>
