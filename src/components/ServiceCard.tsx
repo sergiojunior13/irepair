@@ -9,7 +9,7 @@ type ServiceCardProps = ServiceOrder & { onDelete: () => void; setStatus: (statu
 export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCardProps) {
     const [client, setClient] = useState<Client>();
 
-    function handleChangeStatusBtnClick() {
+    async function handleChangeStatusBtnClick() {
         const updatedServiceOrder: NewServiceOrder = {
             clientId: serviceOrder.client_id,
             device: serviceOrder.device,
@@ -20,17 +20,17 @@ export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCar
         switch (serviceOrder.status) {
             case "open":
                 updatedServiceOrder.status = "in_progress";
-                updateServiceOrder(serviceOrder.id, updatedServiceOrder);
+                await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
                 setStatus("in_progress");
                 break;
             case "in_progress":
                 updatedServiceOrder.status = "done";
-                updateServiceOrder(serviceOrder.id, updatedServiceOrder);
+                await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
                 setStatus("done");
                 break;
             case "done":
                 updatedServiceOrder.status = "open";
-                updateServiceOrder(serviceOrder.id, updatedServiceOrder);
+                await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
                 setStatus("open");
                 break;
         }
