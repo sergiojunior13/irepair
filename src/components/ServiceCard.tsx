@@ -71,7 +71,7 @@ export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCar
 
     return (
         <div
-            className={`flex flex-col gap-1 max-w-3xl mx-auto ${bgColor} border-2 rounded-xl p-3 shadow-blue-100 shadow-lg`}
+            className={`flex flex-col gap-1 max-w-3xl min-w-sm mx-auto ${bgColor} border-2 rounded-xl p-3 shadow-blue-100 shadow-lg`}
         >
             <div className="flex justify-between">
                 <span

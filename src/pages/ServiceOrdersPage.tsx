@@ -42,7 +42,7 @@ export function ServiceOrdersPage() {
         );
 
     return (
-        <div className="px-6">
+        <div className="flex flex-col p-6">
             <NewServiceForm addServiceOrder={addServiceOrder} />
             <div className="w-full max-w-8xl mx-auto">
                 <ServicesOrdersList servicesOrders={servicesOrders} refresh={refresh} />
