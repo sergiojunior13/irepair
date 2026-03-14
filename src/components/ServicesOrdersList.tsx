@@ -8,7 +8,7 @@ interface ServicesOrdersListProps {
 
 export function ServicesOrdersList({ servicesOrders, refresh }: ServicesOrdersListProps) {
     return (
-        <>
+        <div className="mt-7 flex flex-wrap gap-3 justify-between max-w-7xl mx-auto">
             <section className="flex-1">
                 <h2 className="font-bold text-center text-lg">Abertas</h2>
                 <ul className="flex flex-col gap-2 mt-2">
@@ -50,6 +50,6 @@ export function ServicesOrdersList({ servicesOrders, refresh }: ServicesOrdersLi
                     )}
                 </ul>
             </section>
-        </>
+        </div>
     );
 }

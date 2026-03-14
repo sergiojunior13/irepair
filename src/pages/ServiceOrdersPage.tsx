@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NewServiceForm } from "../components/NewServiceForm";
 import type { NewServiceOrder, ServiceOrder } from "../types";
 import { createServiceOrder, getServiceOrders } from "../services/serviceOrderService";
-import { ServiceCard } from "../components/ServiceCard";
+import { ServicesOrdersList } from "../components/ServicesOrdersList";
 
 export function ServiceOrdersPage() {
     const [servicesOrders, setServicesOrders] = useState<ServiceOrder[]>([]);
@@ -42,12 +42,11 @@ export function ServiceOrdersPage() {
         );
 
     return (
-        <>
+        <div className="px-6">
             <NewServiceForm addServiceOrder={addServiceOrder} />
-
-            {servicesOrders.map((so) => (
-                <ServiceCard onDelete={refresh} setStatus={refresh} {...so} />
-            ))}
-        </>
+            <div className="w-full max-w-8xl mx-auto">
+                <ServicesOrdersList servicesOrders={servicesOrders} refresh={refresh} />
+            </div>
+        </div>
     );
 }
