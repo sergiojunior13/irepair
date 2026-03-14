@@ -81,6 +81,7 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
                             onChange={(e) => setServiceOrder({ ...serviceOrder, clientId: Number(e.target.value) })}
                             id={inputData.id}
                             className="bg-blue-50 p-2 rounded-lg"
+                            required
                         >
                             <option disabled selected hidden>
                                 Selecione um cliente...
@@ -99,6 +100,7 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
                             placeholder={`Insira o ${inputData.label.toLowerCase()}...`}
                             onChange={(e) => setServiceOrder({ ...serviceOrder, [inputData.id]: e.target.value })}
                             className="bg-blue-50 p-2 rounded-lg"
+                            required
                         />
                     )}
                 </div>
