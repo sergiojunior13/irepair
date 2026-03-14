@@ -1,47 +1,70 @@
-import { useState } from "react";
-import type { ServiceOrder } from "../types/serviceOrder";
+import { useEffect, useState } from "react";
+import type { NewServiceOrder } from "../types/serviceOrder";
+import type { Client } from "../types";
+import { getClients } from "../services/clientService";
 
 interface NewServiceFormProps {
-    addServiceOrder: (serviceOrder: ServiceOrder) => void;
+    addServiceOrder: (newServiceOrder: NewServiceOrder) => Promise<void>;
 }
 
 export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
-    const [serviceOrder, setServiceOrder] = useState<ServiceOrder>({ status: "open" } as ServiceOrder);
+    const [serviceOrder, setServiceOrder] = useState<NewServiceOrder>({ status: "open" } as NewServiceOrder);
+    const [clients, setClients] = useState<Client[]>();
+    const [isSavingSO, setIsSavingSO] = useState(false);
 
-    const formInputsData = [
-        { id: "defect", label: "Defeito do aparelho" },
-        { id: "clientName", label: "Nome do cliente" },
-        { id: "deviceModel", label: "Modelo do aparelho" },
-    ];
+    useEffect(() => {
+        async function load() {
+            const clients = await getClients();
+            if (!clients) {
+                alert("Não foi possível obter os clientes.");
+                return;
+            }
 
-    function handleCreateServiceBtnClick(e: React.SubmitEvent<HTMLFormElement>) {
+            setClients(clients);
+        }
+
+        load();
+    }, []);
+
+    async function handleCreateServiceBtnClick(e: React.SubmitEvent<HTMLFormElement>) {
         // Impede a página de recarregar
         e.preventDefault();
+        setIsSavingSO(true);
 
         // Verificações dos inputs
-        if (!serviceOrder.clientName) {
-            alert("Insira o nome do cliente!");
+        if (!serviceOrder.clientId) {
+            alert("Selecione o cliente!");
+            setIsSavingSO(false);
+
             return;
         }
 
-        if (!serviceOrder.defect) {
+        if (!serviceOrder.issue) {
             alert("Insira o defeito do aparelho!");
+            setIsSavingSO(false);
+
             return;
         }
 
-        if (!serviceOrder.deviceModel) {
+        if (!serviceOrder.device) {
             alert("Insira o modelo do aparelho!");
+            setIsSavingSO(false);
+
             return;
         }
 
         // Valor padrão do 'status'
         if (!serviceOrder.status) serviceOrder.status = "open";
 
-        // Adiciona a data de criação da OS
-        serviceOrder.createdAt = new Date();
-
-        addServiceOrder(serviceOrder);
+        await addServiceOrder(serviceOrder);
+        setIsSavingSO(false);
     }
+
+    const formInputsData = [
+        { id: "issue", label: "Defeito do aparelho" },
+        { id: "client", label: "Cliente" },
+        { id: "device", label: "Modelo do aparelho" },
+    ];
 
     return (
         <form
@@ -49,25 +72,44 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
             onSubmit={handleCreateServiceBtnClick}
         >
             {formInputsData.map((inputData) => (
-                <div className={`flex flex-col ${inputData.id === "defect" ? "basis-full" : "flex-1"}`}>
+                <div className={`flex flex-col ${inputData.id === "issue" ? "basis-full" : "flex-1"}`}>
                     <label className="font-semibold" htmlFor={inputData.id}>
                         {inputData.label}
                     </label>
-                    <input
-                        type="text"
-                        id={inputData.id}
-                        placeholder={`Insira o ${inputData.label.toLowerCase()}...`}
-                        onChange={(e) => setServiceOrder({ ...serviceOrder, [inputData.id]: e.target.value })}
-                        className="bg-blue-50 p-2 rounded-lg"
-                    />
+                    {inputData.id === "client" ? (
+                        <select
+                            onChange={(e) => setServiceOrder({ ...serviceOrder, clientId: Number(e.target.value) })}
+                            id={inputData.id}
+                            className="bg-blue-50 p-2 rounded-lg"
+                        >
+                            <option disabled selected hidden>
+                                Selecione um cliente...
+                            </option>
+
+                            {clients?.map((cl) => (
+                                <option value={cl.id}>
+                                    {cl.name} ({cl.email})
+                                </option>
+                            )) || "Carregando..."}
+                        </select>
+                    ) : (
+                        <input
+                            type="text"
+                            id={inputData.id}
+                            placeholder={`Insira o ${inputData.label.toLowerCase()}...`}
+                            onChange={(e) => setServiceOrder({ ...serviceOrder, [inputData.id]: e.target.value })}
+                            className="bg-blue-50 p-2 rounded-lg"
+                        />
+                    )}
                 </div>
             ))}
 
             <button
                 type="submit"
-                className="w-full cursor-pointer bg-blue-700 hover:bg-blue-800 mt-4 transition-colors p-2 rounded-xl text-white font-extrabold text-lg"
+                disabled={isSavingSO}
+                className="w-full disabled:opacity-60 cursor-pointer bg-blue-700 hover:bg-blue-800 mt-4 transition-colors p-2 rounded-xl text-white font-extrabold text-lg"
             >
-                Salvar
+                {isSavingSO ? "Salvando..." : "Salvar"}
             </button>
         </form>
     );
