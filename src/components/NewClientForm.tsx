@@ -5,7 +5,7 @@ interface NewClientFormProps {
     addClient: (newClient: NewClient) => Promise<void>;
 }
 
-export function NewClientForm({ addClient }: NewClientFormProps) {
+export const NewClientForm = ({ addClient }: NewClientFormProps) => {
     const [client, setClient] = useState<NewClient>({} as NewClient);
     const [isSavingClient, setIsSavingClient] = useState(false);
 
@@ -77,4 +77,4 @@ export function NewClientForm({ addClient }: NewClientFormProps) {
             </button>
         </form>
     );
-}
+};

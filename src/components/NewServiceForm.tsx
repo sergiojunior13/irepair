@@ -7,7 +7,7 @@ interface NewServiceFormProps {
     addServiceOrder: (newServiceOrder: NewServiceOrder) => Promise<void>;
 }
 
-export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
+export const NewServiceForm = ({ addServiceOrder }: NewServiceFormProps) => {
     const [serviceOrder, setServiceOrder] = useState<NewServiceOrder>({ status: "open" } as NewServiceOrder);
     const [clients, setClients] = useState<Client[]>();
     const [isSavingSO, setIsSavingSO] = useState(false);
@@ -115,4 +115,4 @@ export function NewServiceForm({ addServiceOrder }: NewServiceFormProps) {
             </button>
         </form>
     );
-}
+};

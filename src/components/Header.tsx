@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-export function Header() {
+export const Header = () => {
     return (
         <header className="flex justify-between p-4 px-10 mb-6 bg-blue-600 text-white shadow-md shadow-blue-300">
             <Link to="/">
@@ -19,4 +19,4 @@ export function Header() {
             </nav>
         </header>
     );
-}
+};

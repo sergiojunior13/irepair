@@ -6,7 +6,7 @@ interface ServicesOrdersListProps {
     refresh: () => void;
 }
 
-export function ServicesOrdersList({ servicesOrders, refresh }: ServicesOrdersListProps) {
+export const ServicesOrdersList = ({ servicesOrders, refresh }: ServicesOrdersListProps) => {
     return (
         <div className="mt-7 flex flex-wrap gap-3 justify-between max-w-7xl mx-auto">
             <section className="flex-1">
@@ -52,4 +52,4 @@ export function ServicesOrdersList({ servicesOrders, refresh }: ServicesOrdersLi
             </section>
         </div>
     );
-}
+};

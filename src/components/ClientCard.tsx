@@ -6,7 +6,7 @@ interface ClientCardProps {
     onDelete: () => void;
 }
 
-export function ClientCard({ onDelete, client }: ClientCardProps) {
+export const ClientCard = ({ onDelete, client }: ClientCardProps) => {
     async function handleDeleteBtnClick() {
         const success = await deleteClient(client.id);
 
@@ -35,4 +35,4 @@ export function ClientCard({ onDelete, client }: ClientCardProps) {
             <p className="font-medium text-black/60 text-end text-sm">{client.created_at.toLocaleString()}</p>
         </div>
     );
-}
+};

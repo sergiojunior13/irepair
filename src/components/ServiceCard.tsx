@@ -6,7 +6,7 @@ import { deleteServiceOrder, updateServiceOrder } from "../services/serviceOrder
 
 type ServiceCardProps = ServiceOrder & { onDelete: () => void; setStatus: (status: ServiceOrder["status"]) => void };
 
-export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCardProps) {
+export const ServiceCard = ({ setStatus, onDelete, ...serviceOrder }: ServiceCardProps) => {
     const [client, setClient] = useState<Client>();
 
     async function handleChangeStatusBtnClick() {
@@ -111,4 +111,4 @@ export function ServiceCard({ setStatus, onDelete, ...serviceOrder }: ServiceCar
             <p className="font-medium text-black/80 text-end text-sm">{serviceOrder.created_at.toLocaleString()}</p>
         </div>
     );
-}
+};

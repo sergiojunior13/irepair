@@ -4,7 +4,7 @@ import { createClient, getClients } from "../services/clientService";
 import type { Client, NewClient } from "../types";
 import { ClientCard } from "../components/ClientCard";
 
-export function ClientsPage() {
+export const ClientsPage = () => {
     const [clients, setClients] = useState<Client[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -51,4 +51,4 @@ export function ClientsPage() {
             {isLoading && <p className="text-center font-bold text-2xl mt-10">Carregando clientes...</p>}
         </div>
     );
-}
+};

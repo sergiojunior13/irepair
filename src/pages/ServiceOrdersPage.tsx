@@ -4,7 +4,7 @@ import type { NewServiceOrder, ServiceOrder } from "../types";
 import { createServiceOrder, getServiceOrders } from "../services/serviceOrderService";
 import { ServicesOrdersList } from "../components/ServicesOrdersList";
 
-export function ServiceOrdersPage() {
+export const ServiceOrdersPage = () => {
     const [servicesOrders, setServicesOrders] = useState<ServiceOrder[]>([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
@@ -49,4 +49,4 @@ export function ServiceOrdersPage() {
             </div>
         </div>
     );
-}
+};

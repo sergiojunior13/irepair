@@ -3,7 +3,7 @@ import type { ServiceOrder } from "../types/serviceOrder";
 import { getServiceOrders } from "../services/serviceOrderService";
 import { ServicesOrdersList } from "../components/ServicesOrdersList";
 
-export function DashboardPage() {
+export const DashboardPage = () => {
     const [servicesOrders, setServicesOrders] = useState<ServiceOrder[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshKey, setRefreshKey] = useState(0);
@@ -40,4 +40,4 @@ export function DashboardPage() {
             <ServicesOrdersList servicesOrders={servicesOrders} refresh={refresh} />
         </div>
     );
-}
+};

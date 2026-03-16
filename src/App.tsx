@@ -6,7 +6,7 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { MainLayout } from "./pages/MainLayout";
 import "./App.css";
 
-export default function App() {
+export const App = () => {
     return (
         <BrowserRouter>
             <Routes>
@@ -19,4 +19,4 @@ export default function App() {
             </Routes>
         </BrowserRouter>
     );
-}
+};
