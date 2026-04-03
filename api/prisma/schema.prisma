@@ -18,6 +18,7 @@ model Client {
   email      String   @unique
   phone      String
   created_at DateTime @default(now())
+  password   String
 
   service_orders ServiceOrder[]
 }
