@@ -25,6 +25,8 @@ export class OrdersService {
             if (error instanceof PrismaClientKnownRequestError && error.code === "P2018") {
                 throw new AppError("Não existe um cliente com este 'id'", 404);
             }
+
+            throw error;
         }
     }
 
@@ -59,6 +61,8 @@ export class OrdersService {
             if (error instanceof PrismaClientKnownRequestError && error.code === "P2025") {
                 throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
             }
+
+            throw error;
         }
     }
 
@@ -71,6 +75,8 @@ export class OrdersService {
             if (error instanceof PrismaClientKnownRequestError && error.code === "P2025") {
                 throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
             }
+
+            throw error;
         }
     }
 }
