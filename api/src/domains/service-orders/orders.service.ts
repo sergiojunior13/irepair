@@ -1,4 +1,3 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { Client, Prisma, ServiceOrder } from "../../../generated/prisma/client";
 import { prisma } from "../../config/prismaClient";
 import { AppError } from "../../utils/AppError";
@@ -22,7 +21,7 @@ export class OrdersService {
         } catch (error) {
             // O código de erro 'P2018' é quando "The required connected records were not found"
             // Ou seja, se não existe um cliente com aquele id para criar uma ordem de serviço
-            if (error instanceof PrismaClientKnownRequestError && error.code === "P2018") {
+            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2018") {
                 throw new AppError("Não existe um cliente com este 'id'", 404);
             }
 
@@ -58,7 +57,7 @@ export class OrdersService {
             return updatedOrder;
         } catch (error) {
             // O código de erro 'P2025' é para quando a ordem de serviço a ser atualizada não existe
-            if (error instanceof PrismaClientKnownRequestError && error.code === "P2025") {
+            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
                 throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
             }
 
@@ -72,7 +71,7 @@ export class OrdersService {
                 where: { id, client_id: clientId },
             });
         } catch (error) {
-            if (error instanceof PrismaClientKnownRequestError && error.code === "P2025") {
+            if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
                 throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
             }
 
