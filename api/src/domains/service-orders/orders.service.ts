@@ -6,15 +6,10 @@ export type NewOrder = Omit<Prisma.ServiceOrderCreateInput, "created_at" | "clie
 export type UpdatedOrder = NewOrder & { status: "open" | "in_progress" | "done" };
 
 export class OrdersService {
-    async create(clientId: Client["id"], NewOrder: NewOrder) {
+    async create(clientId: Client["id"], newOrder: NewOrder) {
         try {
             const createdOrder = await prisma.serviceOrder.create({
-                data: {
-                    ...NewOrder,
-                    client: {
-                        connect: { id: clientId },
-                    },
-                },
+                data: { ...newOrder, client: { connect: { id: clientId } } },
             });
 
             return createdOrder;
@@ -49,10 +44,12 @@ export class OrdersService {
 
     async update(id: ServiceOrder["id"], clientId: ServiceOrder["client_id"], order: UpdatedOrder) {
         try {
-            const updatedOrder = await prisma.serviceOrder.update({
-                where: { id, client_id: clientId },
-                data: order,
-            });
+            const isFromClient = await this.checkIfServiceOrderIsFromClient(id, clientId);
+
+            if (!isFromClient)
+                throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
+
+            const updatedOrder = await prisma.serviceOrder.update({ where: { id }, data: order });
 
             return updatedOrder;
         } catch (error) {
@@ -67,9 +64,12 @@ export class OrdersService {
 
     async delete(id: ServiceOrder["id"], clientId: ServiceOrder["client_id"]) {
         try {
-            await prisma.serviceOrder.delete({
-                where: { id, client_id: clientId },
-            });
+            const isFromClient = await this.checkIfServiceOrderIsFromClient(id, clientId);
+
+            if (!isFromClient)
+                throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
+
+            await prisma.serviceOrder.delete({ where: { id } });
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
                 throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
@@ -77,5 +77,12 @@ export class OrdersService {
 
             throw error;
         }
+    }
+
+    private async checkIfServiceOrderIsFromClient(id: ServiceOrder["id"], clientId: ServiceOrder["client_id"]) {
+        const isServiceOrderFromClient =
+            (await prisma.serviceOrder.findFirst({ where: { id, client_id: clientId } })) != null;
+
+        return isServiceOrderFromClient;
     }
 }
