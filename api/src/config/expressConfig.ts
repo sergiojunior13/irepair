@@ -2,8 +2,9 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import { authRoutes } from "../domains/auth/ auth.router";
-import { ordersRoutes } from "../domains/service-orders/orders.router";
+import { authRoutes } from "../domains/auth/auth.routes";
+import { ordersRoutes } from "../domains/service-orders/orders.routes";
+import { clientsRoutes } from "../domains/clients/clients.routes";
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(
 
 app.use("/auth", authRoutes);
 app.use("/orders", ordersRoutes);
+app.use("/clients", clientsRoutes);
 
 export { app };

@@ -56,7 +56,10 @@ export class OrdersController {
             if (!idParam) throw new AppError("Campo 'id' ausente na query da requisição", 400);
             if (isNaN(id)) throw new AppError("Campo 'id' inválido", 400);
 
+            if (!req.body) if (!req.body) throw new AppError("Corpo da requisição ausente", 400);
+
             const order = req.body as UpdatedOrder;
+
             if (!order.device && !order.issue && !order.status)
                 throw new AppError(
                     "Pelo menos um dos campos 'issue', 'device' ou 'status' precisam estar presentes no corpo da requisição",
