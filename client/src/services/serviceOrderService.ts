@@ -3,8 +3,8 @@ import { api, catchError } from "./api";
 
 export async function getServiceOrder(id: ServiceOrder["id"]): Promise<ServiceOrder | null> {
     try {
-        const res = await api.get<{ data: ServiceOrder }>(`/service-orders/${id}`);
-        const serviceOrder = res.data.data;
+        const res = await api.get<ServiceOrder>(`/orders/${id}`);
+        const serviceOrder = res.data;
 
         return serviceOrder;
     } catch (error) {
@@ -16,8 +16,8 @@ export async function getServiceOrder(id: ServiceOrder["id"]): Promise<ServiceOr
 
 export async function createServiceOrder(newServiceOrder: NewServiceOrder): Promise<ServiceOrder | null> {
     try {
-        const res = await api.post<{ data: ServiceOrder }>(`/service-orders`, newServiceOrder);
-        const createdServiceOrder = res.data.data;
+        const res = await api.post<ServiceOrder>(`/orders`, newServiceOrder);
+        const createdServiceOrder = res.data;
 
         return createdServiceOrder;
     } catch (error) {
@@ -32,8 +32,8 @@ export async function updateServiceOrder(
     updatedServiceOrder: NewServiceOrder,
 ): Promise<ServiceOrder | null> {
     try {
-        const res = await api.put<{ data: ServiceOrder }>(`/service-orders/${id}`, updatedServiceOrder);
-        const serviceOrder = res.data.data;
+        const res = await api.put<ServiceOrder>(`/orders/${id}`, updatedServiceOrder);
+        const serviceOrder = res.data;
 
         return serviceOrder;
     } catch (error) {
@@ -43,22 +43,18 @@ export async function updateServiceOrder(
     }
 }
 
-export async function deleteServiceOrder(id: ServiceOrder["id"]): Promise<boolean> {
+export async function deleteServiceOrder(id: ServiceOrder["id"]) {
     try {
-        const res = await api.delete<{ data: { success: boolean } }>(`/service-orders/${id}`);
-
-        return res.data.data.success;
+        await api.delete(`/orders/${id}`);
     } catch (error) {
         catchError(error);
-
-        return false;
     }
 }
 
 export async function getServiceOrders(): Promise<ServiceOrder[] | null> {
     try {
-        const res = await api.get<{ data: ServiceOrder[] }>(`/service-orders`);
-        const serviceOrders = res.data.data;
+        const res = await api.get<ServiceOrder[]>(`/orders`);
+        const serviceOrders = res.data;
 
         return serviceOrders;
     } catch (error) {

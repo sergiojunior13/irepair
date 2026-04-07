@@ -3,8 +3,8 @@ import { api, catchError } from "./api";
 
 export async function getClient(id: Client["id"]): Promise<Client | null> {
     try {
-        const res = await api.get<{ data: Client }>(`/clients/${id}`);
-        const client = res.data.data;
+        const res = await api.get<Client>(`/clients/${id}`);
+        const client = res.data;
 
         return client;
     } catch (error) {
@@ -16,8 +16,8 @@ export async function getClient(id: Client["id"]): Promise<Client | null> {
 
 export async function createClient(newClient: NewClient): Promise<Client | null> {
     try {
-        const res = await api.post<{ data: Client }>(`/clients`, newClient);
-        const createdClient = res.data.data;
+        const res = await api.post<Client>(`/clients`, newClient);
+        const createdClient = res.data;
 
         return createdClient;
     } catch (error) {
@@ -29,8 +29,8 @@ export async function createClient(newClient: NewClient): Promise<Client | null>
 
 export async function updateClient(id: Client["id"], updatedClient: NewClient): Promise<Client | null> {
     try {
-        const res = await api.put<{ data: Client }>(`/clients/${id}`, updatedClient);
-        const client = res.data.data;
+        const res = await api.put<Client>(`/clients/${id}`, updatedClient);
+        const client = res.data;
 
         return client;
     } catch (error) {
@@ -40,22 +40,18 @@ export async function updateClient(id: Client["id"], updatedClient: NewClient): 
     }
 }
 
-export async function deleteClient(id: Client["id"]): Promise<boolean> {
+export async function deleteClient(id: Client["id"]) {
     try {
-        const res = await api.delete<{ data: { success: boolean } }>(`/clients/${id}`);
-
-        return res.data.data.success;
+        await api.delete(`/clients/${id}`);
     } catch (error) {
         catchError(error);
-
-        return false;
     }
 }
 
 export async function getClients(): Promise<Client[] | null> {
     try {
-        const res = await api.get<{ data: Client[] }>(`/clients`);
-        const clients = res.data.data;
+        const res = await api.get<Client[]>(`/clients`);
+        const clients = res.data;
 
         return clients;
     } catch (error) {
