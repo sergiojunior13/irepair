@@ -42,14 +42,14 @@ export class OrdersService {
         return serviceOrders;
     }
 
-    async update(id: ServiceOrder["id"], clientId: ServiceOrder["client_id"], order: UpdatedOrder) {
+    async update(id: ServiceOrder["id"], clientId: ServiceOrder["client_id"], { device, issue, status }: UpdatedOrder) {
         try {
             const isFromClient = await this.checkIfServiceOrderIsFromClient(id, clientId);
 
             if (!isFromClient)
                 throw new AppError("Não existe uma ordem de serviço com este 'id' ou ela não te pertence", 404);
 
-            const updatedOrder = await prisma.serviceOrder.update({ where: { id }, data: order });
+            const updatedOrder = await prisma.serviceOrder.update({ where: { id }, data: { device, issue, status } });
 
             return updatedOrder;
         } catch (error) {
