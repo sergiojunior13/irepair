@@ -1,3 +1,5 @@
+import { useAuth } from "../contexts/AuthContext";
+import { useModal } from "../contexts/ModalProvider";
 import { deleteClient } from "../services/clientService";
 import type { Client } from "../types";
 
@@ -7,10 +9,18 @@ interface ClientCardProps {
 }
 
 export const ClientCard = ({ onDelete, client }: ClientCardProps) => {
-    async function handleDeleteBtnClick() {
-        const success = await deleteClient(client.id);
+    const modal = useModal();
+    const { user } = useAuth();
 
-        if (success) onDelete();
+    async function handleDeleteBtnClick() {
+        try {
+            await deleteClient(client.id);
+
+            onDelete();
+        } catch (err: any) {
+            const message = err.response?.data?.error || "Não foi possível deletar o cliente.";
+            modal.showMessage(message, "error");
+        }
     }
 
     return (
@@ -20,12 +30,14 @@ export const ClientCard = ({ onDelete, client }: ClientCardProps) => {
             <div className="flex justify-between">
                 <h3 className="font-extrabold first-letter:uppercase text-lg">{client.name}</h3>
 
-                <button
-                    onClick={handleDeleteBtnClick}
-                    className="text-white shadow-sm shadow-red-900/80 bg-red-600 cursor-pointer hover:bg-red-800 border border-red-700 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
-                >
-                    X
-                </button>
+                {user?.id === client.id && (
+                    <button
+                        onClick={handleDeleteBtnClick}
+                        className="text-white shadow-sm shadow-red-900/80 bg-red-600 cursor-pointer hover:bg-red-800 border border-red-700 transition-colors px-2 p-0.5 rounded-lg font-semibold inline"
+                    >
+                        X
+                    </button>
+                )}
             </div>
 
             <div className="flex gap-2">

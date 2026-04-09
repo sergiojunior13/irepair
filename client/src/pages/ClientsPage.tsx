@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { NewClientForm } from "../components/NewClientForm";
-import { createClient, getClients } from "../services/clientService";
-import type { Client, NewClient } from "../types";
+import { getClients } from "../services/clientService";
+import type { Client } from "../types";
 import { ClientCard } from "../components/ClientCard";
+import { useAuth } from "../contexts/AuthContext";
 
 export const ClientsPage = () => {
     const [clients, setClients] = useState<Client[]>([]);
-    const [refreshKey, setRefreshKey] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+
+    const auth = useAuth();
 
     useEffect(() => {
         async function load() {
             const client = await getClients();
             if (!client) {
-                alert("Não foi possível obter as ordens de serviço.");
+                alert("Não foi possível obter os clientes.");
                 setIsLoading(false);
                 return;
             }
@@ -23,26 +24,16 @@ export const ClientsPage = () => {
         }
 
         load();
-    }, [refreshKey]);
-
-    function refresh() {
-        setRefreshKey((prev) => prev + 1);
-    }
-
-    async function addClient(client: NewClient) {
-        await createClient(client);
-        refresh();
-    }
+    }, []);
 
     return (
         <div className="flex flex-col p-6">
-            <NewClientForm addClient={addClient} />
-
+            <h2 className="font-bold text-center text-3xl">Clientes</h2>
             {!isLoading && (
                 <ul className="flex flex-wrap justify-center gap-3 mt-5 max-w-5xl mx-auto">
                     {clients.map((client) => (
                         <li>
-                            <ClientCard client={client} onDelete={refresh} />
+                            <ClientCard client={client} onDelete={auth.logout} />
                         </li>
                     ))}
                 </ul>

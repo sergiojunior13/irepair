@@ -2,23 +2,33 @@ import { useEffect, useState } from "react";
 import type { ServiceOrder } from "../types/serviceOrder";
 import { getServiceOrders } from "../services/serviceOrderService";
 import { ServicesOrdersList } from "../components/ServicesOrdersList";
+import { useModal } from "../contexts/ModalProvider";
 
 export const DashboardPage = () => {
     const [servicesOrders, setServicesOrders] = useState<ServiceOrder[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [refreshKey, setRefreshKey] = useState(0);
 
+    const modal = useModal();
+
     useEffect(() => {
         async function load() {
-            const so = await getServiceOrders();
-            if (!so) {
-                alert("Não foi possível obter as ordens de serviço.");
-                setIsLoading(false);
-                return;
-            }
+            try {
+                const so = await getServiceOrders();
+                if (!so) {
+                    alert("");
+                    setIsLoading(false);
+                    return;
+                }
 
-            setServicesOrders(so);
-            setIsLoading(false);
+                setServicesOrders(so);
+                setIsLoading(false);
+            } catch (err: any) {
+                const message = err.response?.data?.error || "Não foi possível obter as ordens de serviço.";
+                modal.showMessage(message, "error");
+
+                return null;
+            }
         }
 
         load();

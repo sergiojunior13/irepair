@@ -1,5 +1,5 @@
 import type { Client, NewClient } from "../types";
-import { api, catchError } from "./api";
+import { api, logError } from "./api";
 
 export async function getClient(id: Client["id"]): Promise<Client | null> {
     try {
@@ -8,22 +8,22 @@ export async function getClient(id: Client["id"]): Promise<Client | null> {
 
         return client;
     } catch (error) {
-        catchError(error);
+        logError(error);
 
-        return null;
+        throw error;
     }
 }
 
 export async function createClient(newClient: NewClient): Promise<Client | null> {
     try {
-        const res = await api.post<Client>(`/clients`, newClient);
+        const res = await api.post<Client>(`/auth/register`, newClient);
         const createdClient = res.data;
 
         return createdClient;
     } catch (error) {
-        catchError(error);
+        logError(error);
 
-        return null;
+        throw error;
     }
 }
 
@@ -34,9 +34,9 @@ export async function updateClient(id: Client["id"], updatedClient: NewClient): 
 
         return client;
     } catch (error) {
-        catchError(error);
+        logError(error);
 
-        return null;
+        throw error;
     }
 }
 
@@ -44,7 +44,7 @@ export async function deleteClient(id: Client["id"]) {
     try {
         await api.delete(`/clients/${id}`);
     } catch (error) {
-        catchError(error);
+        logError(error);
     }
 }
 
@@ -55,8 +55,8 @@ export async function getClients(): Promise<Client[] | null> {
 
         return clients;
     } catch (error) {
-        catchError(error);
+        logError(error);
 
-        return null;
+        throw error;
     }
 }

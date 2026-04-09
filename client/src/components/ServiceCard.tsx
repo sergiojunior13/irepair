@@ -3,11 +3,14 @@ import type { NewServiceOrder, ServiceOrder } from "../types/serviceOrder";
 import type { Client } from "../types";
 import { getClient } from "../services/clientService";
 import { deleteServiceOrder, updateServiceOrder } from "../services/serviceOrderService";
+import { useModal } from "../contexts/ModalProvider";
 
 type ServiceCardProps = ServiceOrder & { onDelete: () => void; setStatus: (status: ServiceOrder["status"]) => void };
 
 export const ServiceCard = ({ setStatus, onDelete, ...serviceOrder }: ServiceCardProps) => {
     const [client, setClient] = useState<Client>();
+
+    const modal = useModal();
 
     async function handleChangeStatusBtnClick() {
         const updatedServiceOrder: NewServiceOrder = {
@@ -17,35 +20,50 @@ export const ServiceCard = ({ setStatus, onDelete, ...serviceOrder }: ServiceCar
             status: serviceOrder.status,
         };
 
-        switch (serviceOrder.status) {
-            case "open":
-                updatedServiceOrder.status = "in_progress";
-                await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
-                setStatus("in_progress");
-                break;
-            case "in_progress":
-                updatedServiceOrder.status = "done";
-                await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
-                setStatus("done");
-                break;
-            case "done":
-                updatedServiceOrder.status = "open";
-                await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
-                setStatus("open");
-                break;
+        try {
+            switch (serviceOrder.status) {
+                case "open":
+                    updatedServiceOrder.status = "in_progress";
+                    await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
+                    setStatus("in_progress");
+                    break;
+                case "in_progress":
+                    updatedServiceOrder.status = "done";
+                    await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
+                    setStatus("done");
+                    break;
+                case "done":
+                    updatedServiceOrder.status = "open";
+                    await updateServiceOrder(serviceOrder.id, updatedServiceOrder);
+                    setStatus("open");
+                    break;
+            }
+        } catch (err: any) {
+            const message = err.response?.data?.error || "Não foi possível mudar o status a ordem de serviço.";
+            modal.showMessage(message, "error");
         }
     }
 
     async function handleDeleteBtnClick() {
-        const success = await deleteServiceOrder(serviceOrder.id);
+        try {
+            await deleteServiceOrder(serviceOrder.id);
 
-        if (success) onDelete();
+            onDelete();
+        } catch (err: any) {
+            const message = err.response?.data?.error || "Não foi possível deletar a ordem de serviço.";
+            modal.showMessage(message, "error");
+        }
     }
 
     useEffect(() => {
-        getClient(serviceOrder.client_id).then((c) => {
-            if (c) setClient(c);
-        });
+        try {
+            getClient(serviceOrder.client_id).then((c) => {
+                if (c) setClient(c);
+            });
+        } catch (err: any) {
+            const message = err.response?.data?.error || "Não foi possível obter o cliente.";
+            modal.showMessage(message, "error");
+        }
     }, []);
 
     let statusName;
