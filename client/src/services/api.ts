@@ -1,0 +1,32 @@
+import axios from "axios";
+
+export const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true,
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
+
+// api.interceptors.response.use(
+//     (response) => response,
+//     (error) => {
+//         // Ignora erros de requisições 401 quando está em /login, para evitar loop de reload da página /login quando não há usuário logado
+//         if (error.response?.status === 401 && !window.location.href.includes("/login")) {
+//             window.location.href = "/login";
+//         }
+
+//         return Promise.reject(error);
+//     },
+// );
+
+export function logError(error: any) {
+    if (axios.isAxiosError(error)) {
+        // Erro da API (ex: 404 Not Found, 400 Bad Request)
+        console.error("Erro da API:", error.response?.data);
+        console.error("Status:", error.response?.status);
+    } else {
+        // Outro tipo de erro (sem internet, etc)
+        console.error("Erro inesperado:", error);
+    }
+}
