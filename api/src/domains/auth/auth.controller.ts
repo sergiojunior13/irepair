@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { AuthService, NewUser } from "./auth.service";
-import { AppError } from "../../utils/AppError";
-import { Client } from "../../../generated/prisma/client";
+import { AuthService, NewUser } from "./auth.service.js";
+import { AppError } from "../../utils/AppError.js";
+import { Client } from "../../../generated/prisma/client.js";
 
 const authService = new AuthService();
 

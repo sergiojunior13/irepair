@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { NewOrder, OrdersService, UpdatedOrder } from "./orders.service";
-import { AppError } from "../../utils/AppError";
+import { NewOrder, OrdersService, UpdatedOrder } from "./orders.service.js";
+import { AppError } from "../../utils/AppError.js";
 
 const ordersService = new OrdersService();
 

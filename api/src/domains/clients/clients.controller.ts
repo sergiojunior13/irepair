@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ClientsService, UpdatedClient } from "./clients.service";
-import { AppError } from "../../utils/AppError";
+import { ClientsService, UpdatedClient } from "./clients.service.js";
+import { AppError } from "../../utils/AppError.js";
 
 const clientsService = new ClientsService();
 

@@ -7,7 +7,7 @@ if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL não definido nas variáveis de ambiente");
 }
 
-import { app } from "./config/expressConfig";
+import { app } from "./config/expressConfig.js";
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor rodando em http://localhost:${process.env.PORT}`);
