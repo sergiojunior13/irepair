@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { Client } from "../../generated/prisma/client";
+import { Client } from "../../generated/prisma/client.js";
 
 type TokenPayload = Pick<Client, "id" | "email">;
 type CompleteTokenPayload = TokenPayload & { iat: number; exp: number };

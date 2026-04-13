@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
-import { prisma } from "../../config/prismaClient";
-import { JWT } from "../../utils/token";
-import { AppError } from "../../utils/AppError";
-import { Prisma } from "../../../generated/prisma/client";
+import { prisma } from "../../config/prismaClient.js";
+import { JWT } from "../../utils/token.js";
+import { AppError } from "../../utils/AppError.js";
+import { Prisma } from "../../../generated/prisma/client.js";
 
 const SALT_ROUNDS = 10;
 

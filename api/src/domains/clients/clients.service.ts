@@ -1,6 +1,6 @@
-import { Client, Prisma } from "../../../generated/prisma/client";
-import { prisma } from "../../config/prismaClient";
-import { AppError } from "../../utils/AppError";
+import { Client, Prisma } from "../../../generated/prisma/client.js";
+import { prisma } from "../../config/prismaClient.js";
+import { AppError } from "../../utils/AppError.js";
 
 export type UpdatedClient = Pick<Prisma.ClientUpdateInput, "name" | "phone">;
 

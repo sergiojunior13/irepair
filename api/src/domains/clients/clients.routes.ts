@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { ClientsController } from "./clients.controller";
-import { authMiddleware } from "../../middlewares/authMiddleware";
+import { ClientsController } from "./clients.controller.js";
+import { authMiddleware } from "../../middlewares/authMiddleware.js";
 
 export const clientsRoutes = Router();
 const clientsController = new ClientsController();

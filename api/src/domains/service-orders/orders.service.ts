@@ -1,6 +1,6 @@
-import { Client, Prisma, ServiceOrder } from "../../../generated/prisma/client";
-import { prisma } from "../../config/prismaClient";
-import { AppError } from "../../utils/AppError";
+import { Client, Prisma, ServiceOrder } from "../../../generated/prisma/client.js";
+import { prisma } from "../../config/prismaClient.js";
+import { AppError } from "../../utils/AppError.js";
 
 export type NewOrder = Omit<Prisma.ServiceOrderCreateInput, "created_at" | "client" | "status">;
 export type UpdatedOrder = NewOrder & { status: "open" | "in_progress" | "done" };
